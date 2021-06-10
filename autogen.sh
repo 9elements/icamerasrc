@@ -51,7 +51,7 @@ autoreconf --verbose --force --install --make || {
 }
 
 args="--prefix=/usr \
---libdir=/usr/lib"
+--libdir=/usr/lib/x86_64-linux-gnu"
 
 ./configure $args || {
  echo 'configure failed';
