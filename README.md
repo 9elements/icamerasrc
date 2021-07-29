@@ -16,23 +16,40 @@ This repository supports MIPI cameras through the IPU6 on Intel Tigerlake platfo
 
 ```
  export CHROME_SLIM_CAMHAL=ON
- ./autogen.sh 
+ ./autogen.sh
  make
  sudo make install
 ```
- 
+
+## UDEV rule configuration
+To use the gstreamer plugin as user, you need RW access to `/dev/ipu-psys0`. This can be done
+by changing its pemissions via udev rule. In addition, it is required to add your user to the
+`video` group.
+
+### UDEV Setup
+```
+sudo cp 37-ipu6-psys.rules /usr/lib/udev/rules.d/
+sudo udevadm control --reload
+```
+
+### user Setup
+```
+sudo usermod -g -G video <username>
+```
+**NOTE:** If the user is currently logged in, they must log out and in again for the change to take effect.
+
 ## Pipeline examples
 * Testpattern generator (no sensor)
 ```
-sudo -E gst-launch-1.0 icamerasrc device-name=tpg_ipu6 ! video/x-raw,format=YUY2,width=1280,height=720 ! videoconvert ! xvimagesink
+gst-launch-1.0 icamerasrc device-name=tpg_ipu6 ! video/x-raw,format=YUY2,width=1280,height=720 ! videoconvert ! xvimagesink
 ```
 
 * Sensor ov01a1s
 ```
-sudo -E gst-launch-1.0 icamerasrc device-name=ov01a1s-uf ! video/x-raw,format=YUY2,width=1280,height=720 ! videoconvert ! xvimagesink
+gst-launch-1.0 icamerasrc device-name=ov01a1s-uf ! video/x-raw,format=YUY2,width=1280,height=720 ! videoconvert ! xvimagesink
 ```
 
 * Sensor hm11b1
 ```
-sudo -E gst-launch-1.0 icamerasrc device-name=hm11b1-uf ! video/x-raw,format=YUY2,width=1280,height=720 ! videoconvert ! xvimagesink
+gst-launch-1.0 icamerasrc device-name=hm11b1-uf ! video/x-raw,format=YUY2,width=1280,height=720 ! videoconvert ! xvimagesink
 ```
