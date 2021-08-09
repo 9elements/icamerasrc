@@ -34,7 +34,7 @@ sudo udevadm control --reload
 
 ### user Setup
 ```
-sudo usermod -g -G video <username>
+sudo usermod -a -G video <username>
 ```
 **NOTE:** If the user is currently logged in, they must log out and in again for the change to take effect.
 
